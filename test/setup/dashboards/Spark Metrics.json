@@ -1,0 +1,943 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 12,
+  "iteration": 1551481134350,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  execution_ts AS \"time\",\n  numvalue,\n  metricname\nFROM t_spark_executors\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "numvalue"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "metricname"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "t_spark_executors",
+          "timeColumn": "execution_ts",
+          "timeColumnType": "timestamptz",
+          "where": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "All Executors metrics",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  launch_ts AS \"time\",\n  numvalue,\n  metricname\nFROM t_spark_stages\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "numvalue"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "metricname"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "t_spark_stages",
+          "timeColumn": "launch_ts",
+          "timeColumnType": "timestamp",
+          "where": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "All Spark Stages",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  execution_ts AS \"time\",\n  numvalue,\n  metricname\nFROM t_spark_executors\nWHERE\n  app_id = '$sparkappid'\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "numvalue"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "metricname"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "t_spark_executors",
+          "timeColumn": "execution_ts",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "app_id",
+                "=",
+                "'$sparkappid'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Spark Executor",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  launch_ts AS \"time\",\n  numvalue,\n  metricname\nFROM t_spark_stages\nWHERE\n  $__timeFilter(launch_ts) AND\n  app_id = '$sparkappid' AND\n  stageid = '$stageid'\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "numvalue"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "metricname"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "t_spark_stages",
+          "timeColumn": "launch_ts",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "app_id",
+                "=",
+                "'$sparkappid'"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "int4",
+              "name": "",
+              "params": [
+                "stageid",
+                "=",
+                "'$stageid'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Spark Stages",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 16,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "192.168.1.27",
+          "value": "192.168.1.27"
+        },
+        "datasource": "PostgreSQL",
+        "definition": "select distinct shshost from t_spark_apps",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Spark History Server",
+        "multi": false,
+        "name": "shshost",
+        "options": [
+          {
+            "selected": true,
+            "text": "192.168.1.27",
+            "value": "192.168.1.27"
+          }
+        ],
+        "query": "select distinct shshost from t_spark_apps",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "Spark shell",
+          "value": "Spark shell"
+        },
+        "datasource": "PostgreSQL",
+        "definition": "select  distinct appname from t_spark_apps where shshost='$shshost'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Spark Application",
+        "multi": false,
+        "name": "sparkapp",
+        "options": [
+          {
+            "selected": false,
+            "text": "Thrift JDBC/ODBC Server",
+            "value": "Thrift JDBC/ODBC Server"
+          },
+          {
+            "selected": false,
+            "text": "Zeppelin",
+            "value": "Zeppelin"
+          },
+          {
+            "selected": true,
+            "text": "Spark shell",
+            "value": "Spark shell"
+          },
+          {
+            "selected": false,
+            "text": "PySparkShell",
+            "value": "PySparkShell"
+          },
+          {
+            "selected": false,
+            "text": "myapp",
+            "value": "myapp"
+          },
+          {
+            "selected": false,
+            "text": "deploy",
+            "value": "deploy"
+          }
+        ],
+        "query": "select  distinct appname from t_spark_apps where shshost='$shshost'",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "local-1547662458202",
+          "value": "local-1547662458202"
+        },
+        "datasource": "PostgreSQL",
+        "definition": "select app_id from t_spark_apps  where shshost='$shshost' and appname='$sparkapp'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Spark Application Id",
+        "multi": false,
+        "name": "sparkappid",
+        "options": [
+          {
+            "selected": false,
+            "text": "local-1547671569968",
+            "value": "local-1547671569968"
+          },
+          {
+            "selected": false,
+            "text": "local-1547666127360",
+            "value": "local-1547666127360"
+          },
+          {
+            "selected": false,
+            "text": "local-1547663785968",
+            "value": "local-1547663785968"
+          },
+          {
+            "selected": true,
+            "text": "local-1547662458202",
+            "value": "local-1547662458202"
+          },
+          {
+            "selected": false,
+            "text": "local-1547659163352",
+            "value": "local-1547659163352"
+          },
+          {
+            "selected": false,
+            "text": "local-1547433055320",
+            "value": "local-1547433055320"
+          },
+          {
+            "selected": false,
+            "text": "local-1547234008248",
+            "value": "local-1547234008248"
+          },
+          {
+            "selected": false,
+            "text": "local-1547225267032",
+            "value": "local-1547225267032"
+          },
+          {
+            "selected": false,
+            "text": "local-1547222125742",
+            "value": "local-1547222125742"
+          },
+          {
+            "selected": false,
+            "text": "local-1547166763686",
+            "value": "local-1547166763686"
+          },
+          {
+            "selected": false,
+            "text": "local-1547165249924",
+            "value": "local-1547165249924"
+          },
+          {
+            "selected": false,
+            "text": "local-1547165222739",
+            "value": "local-1547165222739"
+          },
+          {
+            "selected": false,
+            "text": "local-1547165201299",
+            "value": "local-1547165201299"
+          },
+          {
+            "selected": false,
+            "text": "local-1547165174639",
+            "value": "local-1547165174639"
+          },
+          {
+            "selected": false,
+            "text": "local-1547165160862",
+            "value": "local-1547165160862"
+          },
+          {
+            "selected": false,
+            "text": "local-1547162391290",
+            "value": "local-1547162391290"
+          },
+          {
+            "selected": false,
+            "text": "local-1547082703668",
+            "value": "local-1547082703668"
+          },
+          {
+            "selected": false,
+            "text": "local-1547078016265",
+            "value": "local-1547078016265"
+          },
+          {
+            "selected": false,
+            "text": "local-1547077912770",
+            "value": "local-1547077912770"
+          },
+          {
+            "selected": false,
+            "text": "local-1547075459208",
+            "value": "local-1547075459208"
+          },
+          {
+            "selected": false,
+            "text": "local-1547074834808",
+            "value": "local-1547074834808"
+          },
+          {
+            "selected": false,
+            "text": "local-1547067236409",
+            "value": "local-1547067236409"
+          },
+          {
+            "selected": false,
+            "text": "local-1547065206950",
+            "value": "local-1547065206950"
+          },
+          {
+            "selected": false,
+            "text": "local-1547064433405",
+            "value": "local-1547064433405"
+          },
+          {
+            "selected": false,
+            "text": "local-1547063933368",
+            "value": "local-1547063933368"
+          },
+          {
+            "selected": false,
+            "text": "local-1547062754586",
+            "value": "local-1547062754586"
+          },
+          {
+            "selected": false,
+            "text": "local-1547063619503",
+            "value": "local-1547063619503"
+          },
+          {
+            "selected": false,
+            "text": "local-1547060849363",
+            "value": "local-1547060849363"
+          },
+          {
+            "selected": false,
+            "text": "local-1547060687086",
+            "value": "local-1547060687086"
+          },
+          {
+            "selected": false,
+            "text": "local-1547060454026",
+            "value": "local-1547060454026"
+          },
+          {
+            "selected": false,
+            "text": "local-1547058315208",
+            "value": "local-1547058315208"
+          },
+          {
+            "selected": false,
+            "text": "local-1547058200088",
+            "value": "local-1547058200088"
+          },
+          {
+            "selected": false,
+            "text": "local-1547058112286",
+            "value": "local-1547058112286"
+          },
+          {
+            "selected": false,
+            "text": "local-1547057281414",
+            "value": "local-1547057281414"
+          },
+          {
+            "selected": false,
+            "text": "local-1547055291960",
+            "value": "local-1547055291960"
+          },
+          {
+            "selected": false,
+            "text": "local-1546967813606",
+            "value": "local-1546967813606"
+          },
+          {
+            "selected": false,
+            "text": "app-20190108120752-0000",
+            "value": "app-20190108120752-0000"
+          },
+          {
+            "selected": false,
+            "text": "local-1546956740503",
+            "value": "local-1546956740503"
+          },
+          {
+            "selected": false,
+            "text": "local-1546943811177",
+            "value": "local-1546943811177"
+          },
+          {
+            "selected": false,
+            "text": "local-1546917804714",
+            "value": "local-1546917804714"
+          },
+          {
+            "selected": false,
+            "text": "local-1546895287751",
+            "value": "local-1546895287751"
+          },
+          {
+            "selected": false,
+            "text": "local-1546887008157",
+            "value": "local-1546887008157"
+          },
+          {
+            "selected": false,
+            "text": "local-1546880071803",
+            "value": "local-1546880071803"
+          },
+          {
+            "selected": false,
+            "text": "local-1546878524455",
+            "value": "local-1546878524455"
+          },
+          {
+            "selected": false,
+            "text": "local-1546871508093",
+            "value": "local-1546871508093"
+          },
+          {
+            "selected": false,
+            "text": "local-1546650766599",
+            "value": "local-1546650766599"
+          },
+          {
+            "selected": false,
+            "text": "local-1546649020351",
+            "value": "local-1546649020351"
+          },
+          {
+            "selected": false,
+            "text": "application_1546647483740_0002",
+            "value": "application_1546647483740_0002"
+          },
+          {
+            "selected": false,
+            "text": "application_1546647483740_0001",
+            "value": "application_1546647483740_0001"
+          },
+          {
+            "selected": false,
+            "text": "application_1546638001078_0010",
+            "value": "application_1546638001078_0010"
+          },
+          {
+            "selected": false,
+            "text": "application_1546638001078_0009",
+            "value": "application_1546638001078_0009"
+          },
+          {
+            "selected": false,
+            "text": "application_1546638001078_0008",
+            "value": "application_1546638001078_0008"
+          },
+          {
+            "selected": false,
+            "text": "application_1546638001078_0002",
+            "value": "application_1546638001078_0002"
+          },
+          {
+            "selected": false,
+            "text": "application_1546633858709_0002",
+            "value": "application_1546633858709_0002"
+          },
+          {
+            "selected": false,
+            "text": "local-1547060930216",
+            "value": "local-1547060930216"
+          },
+          {
+            "selected": false,
+            "text": "local-1547057806181",
+            "value": "local-1547057806181"
+          }
+        ],
+        "query": "select app_id from t_spark_apps  where shshost='$shshost' and appname='$sparkapp'",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "text": "0",
+          "value": "0"
+        },
+        "hide": 0,
+        "label": "Spark Stage Id",
+        "name": "stageid",
+        "options": [
+          {
+            "text": "0",
+            "value": "0"
+          }
+        ],
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2019-01-03T16:30:18.000Z",
+    "to": "2019-01-18T00:32:07.000Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Spark Metrics",
+  "uid": "CCqqTRCiz",
+  "version": 3
+}
