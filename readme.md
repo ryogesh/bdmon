@@ -43,7 +43,7 @@ To configure for MySQL or SQL Server, refer [pyodbc](https://github.com/mkleeham
 unixodbc-dev, unzip, libssl-dev, libffi-dev, python3-dev, python3-pip
 
 ### Python modules required
-ujson, pyodbc, urllib3[secure], requests, cryptography
+ujson, pyodbc, urllib3[secure], requests, pykerberos, requests_kerberos, cryptography
 
 If the above libraries and packages are not available on the server they can be installed by running the setup/setup-bdmon-app.sh script. See "Setup and configure application" section below.
 
@@ -53,6 +53,7 @@ bdmon is a pure python module, requires no installation if the requirements are 
 ### Setup and configure application
 - Download the zip file
 - unzip the file
+- create logs folder under the unzipped folder
 - (optional) run the setup script, setup/setup-bdmon-app.sh
 - run application configuration script, setup/updatecfg.py
 
@@ -98,6 +99,9 @@ Run the test script to verify the deployment and database configuration
     python3 test_bdmon_db.py
     ```
 
+### Kerberos 
+If the Hadoop cluster has Kerberos enabled, then set kerberos = y on the config file. Make sure the Kerberos Ticket-Granting Ticket (TGT) cache is available and is valid . The principal of the TGT should be authorized to access the respective application (hdfs, hbase...). 
+    
 ## Capture Big Data service metrics
     Usage
     -------

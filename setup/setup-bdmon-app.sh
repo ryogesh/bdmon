@@ -85,7 +85,7 @@ fi
 
 echo "******Installing python3 modules******"
 sudo $pyname -m pip install --upgrade pip  
-$pyname -m pip install ujson pyodbc urllib3[secure] requests cryptography --user
+$pyname -m pip install ujson pyodbc urllib3[secure] requests pykerberos requests_kerberos cryptography --user
 check_stat "Install python3 modules"
 
 echo ""

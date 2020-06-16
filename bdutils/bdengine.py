@@ -13,14 +13,18 @@ from datetime import datetime
 import itertools
 from math import isnan
 
+import urllib3
 import requests
 import ujson
+from requests_kerberos import HTTPKerberosAuth
 
 from bdutils.coreutils import gethbasedetails, gethdfsdetails, gethivedetails, getbdapplst, getlgr
-from bdutils.coreutils import BDMonException, getzkdetails, getyarndetails, getsparkdetails
+from bdutils.coreutils import BDMonException, getzkdetails, getyarndetails, getsparkdetails, getsecsettings
 from bdutils.dbops import DbOps
 
 __all__ = ['get_appmetrics']
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class _SocketConn():
     """ Class to process jmx data for different applications """
@@ -101,6 +105,12 @@ class _BDMProcess():
         self._host = ''
         self._proto = 'http'
         self._uripath = '/jmx'
+        secsettings = getsecsettings(self._lgr)
+        self._kerb = secsettings['kerberos']
+        if secsettings['tlsverify'] == 'n':
+            self._tlsverify = False 
+        else:
+            self._tlsverify = True
         self.mtrx = {'error':0, 'warning':0}
 
     def _bulk_insdb(self):
@@ -130,6 +140,9 @@ class _BDMProcess():
         self._uripath = hdfs["uripath"]
         nnodes = hdfs["namenode"].replace(' ', '').split(',')
         self._lgr.debug("Received HDFS config info:%s", hdfs)
+        # Kerberos config specific to component
+        old_kerb = self._kerb
+        self._kerb = hdfs["kerberos"]
         for node in nnodes:
             try:
                 jdata = self._get_metrics(node)
@@ -180,6 +193,8 @@ class _BDMProcess():
             self._lgr.error("%s", err)
             self.mtrx['error'] += 1
             raise BDMonException(errmsg)
+        # Reset kerberos config
+        self._kerb = old_kerb
 
     def _get_metrics_workers(self, wnodes, cnfgport, app, appcomp):
         """Function to process HDFS datanodes, HBase regionservers jmx data"""
@@ -238,6 +253,9 @@ class _BDMProcess():
         self._uripath = hbase["uripath"]
         hbnodes = hbase["hmaster"].replace(' ', '').split(',')
         self._lgr.debug("Received HBase config info:%s", hbase)
+        # Kerberos config specific to component
+        old_kerb = self._kerb
+        self._kerb = hbase["kerberos"]
         for node in hbnodes:
             try:
                 jdata = self._get_metrics(node)
@@ -286,6 +304,8 @@ class _BDMProcess():
             self._lgr.error("%s", err)
             self.mtrx['error'] += 1
             raise BDMonException(errmsg)
+        # Reset kerberos config
+        self._kerb = old_kerb
 
     def get_metrics_hive(self):
         """Function to process HIVE jmx data"""
@@ -295,6 +315,9 @@ class _BDMProcess():
         hs2nodes = hive["hs2"].replace(' ', '').split(',')
         self._lgr.debug("Received HIVE config info:%s", hive)
         rcmp = re.compile(r"Count|Valid|Value") # ignore these metricnames
+        # Kerberos config specific to component
+        old_kerb = self._kerb
+        self._kerb = hive["kerberos"]
         for node in hs2nodes:
             try:
                 jdata = self._get_metrics(node)
@@ -340,6 +363,8 @@ class _BDMProcess():
             #Expand the list of lists to list of insert values
             self._dbo.values = list(itertools.chain(*insvals))
             self._bulk_insdb()
+        # Reset kerberos config
+        self._kerb = old_kerb
 
     def get_metrics_spark(self):
         """Function to process spark json metrics data"""
@@ -348,6 +373,9 @@ class _BDMProcess():
         self._uripath = sprk["uripath"] + '/applications'
         shsnodes = sprk["histsrvr"].replace(' ', '').split(',')
         self._lgr.debug("Received spark config info:%s", sprk)
+        # Kerberos config specific to component
+        old_kerb = self._kerb
+        self._kerb = sprk["kerberos"]
         for node in shsnodes:
             self._host = node.split(':')[0]
             #First, get the last run timestamp
@@ -433,6 +461,8 @@ class _BDMProcess():
                                                        key not in ('stageId', 'attemptId')]
                                 self._dbo.stmt = self._dbo_stmts["spark_stgs"]
                                 self._bulk_insdb()
+        # Reset kerberos config
+        self._kerb = old_kerb
 
     def get_metrics_yarn(self):
         """Function to process YARN active/standby jmx data"""
@@ -442,6 +472,9 @@ class _BDMProcess():
         self._uripath = yarn["uripath"]
         rmnodes = yarn["rm"].replace(' ', '').split(',')
         self._lgr.debug("Received yarn config info:%s", yarn)
+        # Kerberos config specific to component
+        old_kerb = self._kerb
+        self._kerb = yarn["kerberos"]
         for node in rmnodes:
             try:
                 jdata = self._get_metrics(node)
@@ -490,6 +523,8 @@ class _BDMProcess():
             self._lgr.error("%s", err)
             self.mtrx['error'] += 1
             raise BDMonException(errmsg)
+        # Reset kerberos config
+        self._kerb = old_kerb
 
     def get_metrics_zookeeper(self):
         """Function to process zookeeper quorum metrics"""
@@ -588,8 +623,13 @@ class _BDMProcess():
         """ GET JMX data from URIs"""
         app_uri = self._proto + "://" + app_host_port + self._uripath
         self._lgr.info('Invoking:%s', app_uri)
+        self._lgr.info('Kerberos setting:%s', self._kerb)
+        self._lgr.info('VerifyTLS setting:%s', self._tlsverify)
         try:
-            res = requests.get(app_uri, timeout=1.0)
+            if self._kerb == 'y':
+                res = requests.get(app_uri, timeout=1.0, verify=self._tlsverify, auth=HTTPKerberosAuth())
+            else:
+                res = requests.get(app_uri, timeout=1.0, verify=self._tlsverify)
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as err:
             errmsg = 'BDM-URI-00: Connection error to metrics URI:%s' %app_uri
             self._lgr.error(errmsg)

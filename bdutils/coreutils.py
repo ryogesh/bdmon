@@ -21,7 +21,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
-__all__ = ['BDMonException', 'getlgr', 'getdbdetails', 'gethbasedetails', 'gethivedetails',
+__all__ = ['BDMonException', 'getlgr', 'getdbdetails', 'gethbasedetails', 'gethivedetails', 'getsecsettings',
            'gethdfsdetails', 'getyarndetails', 'getzkdetails', 'getbdapplst', 'getsparkdetails']
 
 _FLPATH = os.path.dirname(os.path.realpath(__file__))
@@ -114,7 +114,7 @@ def gethdfsdetails(lgr=''):
     try:
         _CFG.read(_CONFIGFL)
         hdfs = {'namenode':"localhost:50070", 'dnport': '50075', 'datanodes':'',
-                'proto':'http', 'uripath':'/jmx'}
+                'proto':'http', 'uripath':'/jmx', 'kerberos':'y'}
         for name, value in _CFG.items('HDFS'):
             lgr.debug("HDFS Name:%s, Value:%s", name, value)
             if name == 'namenode':
@@ -127,6 +127,8 @@ def gethdfsdetails(lgr=''):
                 hdfs["proto"] = 'https'
             elif name == 'uripath':
                 hdfs["uripath"] = value
+            elif name == 'kerberos':
+                hdfs["kerberos"] = value
     except (NameError, NoSectionError, NoOptionError) as err:
         lgr.warning('HDFS config missing; assuming standalone local hdfs')
         lgr.warning('HDFS config error: %s', err)
@@ -139,7 +141,7 @@ def gethbasedetails(lgr=''):
     try:
         _CFG.read(_CONFIGFL)
         hbase = {'hmaster':"localhost:16010", 'rsport': '16030', 'regionservers':'',
-                 'proto':'http', 'uripath':'/jmx'}
+                 'proto':'http', 'uripath':'/jmx', 'kerberos':'y'}
         for name, value in _CFG.items('HBASE'):
             lgr.debug("HBase Name:%s, Value:%s", name, value)
             if name == 'hmaster':
@@ -152,6 +154,8 @@ def gethbasedetails(lgr=''):
                 hbase["proto"] = 'https'
             elif name == 'uripath':
                 hbase["uripath"] = value
+            elif name == 'kerberos':
+                hbase["kerberos"] = value
     except (NameError, NoSectionError, NoOptionError) as err:
         lgr.warning('HBASE config missing; assuming standalone local hbase')
         lgr.warning('HBASE config error: %s', err)
@@ -163,7 +167,7 @@ def gethivedetails(lgr=''):
         lgr = getlgr()
     try:
         _CFG.read(_CONFIGFL)
-        hive = {'hs2':"localhost:10002", 'proto':'http', 'uripath':'/jmx'}
+        hive = {'hs2':"localhost:10002", 'proto':'http', 'uripath':'/jmx', 'kerberos':'y'}
         for name, value in _CFG.items('HIVE'):
             lgr.debug("Hive Name:%s, Value:%s", name, value)
             if name == 'hs2':
@@ -172,6 +176,8 @@ def gethivedetails(lgr=''):
                 hive["proto"] = 'https'
             elif name == 'uripath':
                 hive["uripath"] = value
+            elif name == 'kerberos':
+                hive["kerberos"] = value
     except (NameError, NoSectionError, NoOptionError) as err:
         lgr.warning('HIVE Server config missing; assuming standalone local hive')
         lgr.warning('HIVE config error: %s', err)
@@ -184,7 +190,7 @@ def getyarndetails(lgr=''):
     try:
         _CFG.read(_CONFIGFL)
         yarn = {'rm':"localhost:8088", 'nmport': '8042', 'nmnodes':'',
-                'proto':'http', 'uripath':'/jmx'}
+                'proto':'http', 'uripath':'/jmx', 'kerberos':'y'}
         for name, value in _CFG.items('YARN'):
             lgr.debug("yarn Name:%s, Value:%s", name, value)
             if name == 'rm':
@@ -197,6 +203,8 @@ def getyarndetails(lgr=''):
                 yarn["nmnodes"] = value
             elif name == 'nmport':
                 yarn["nmport"] = value
+            elif name == 'kerberos':
+                yarn["kerberos"] = value
     except (NameError, NoSectionError, NoOptionError) as err:
         lgr.warning('YARN Server config missing; assuming standalone local yarn')
         lgr.warning('yarn config error: %s', err)
@@ -222,7 +230,8 @@ def getsparkdetails(lgr=''):
         lgr = getlgr()
     try:
         _CFG.read(_CONFIGFL)
-        spk = {'histsrvr':"localhost:18080", 'proto':'http', 'uripath':'/api/v1', 'mtrxdate':''}
+        spk = {'histsrvr':"localhost:18080", 'proto':'http', 'uripath':'/api/v1',
+               'mtrxdate':'', 'kerberos':'y'}
         for name, value in _CFG.items('SPARK'):
             if name == 'histsrvr':
                 spk["histsrvr"] = value
@@ -232,6 +241,8 @@ def getsparkdetails(lgr=''):
                 spk["uripath"] = value
             elif name == 'mtrxdate':
                 spk["mtrxdate"] = value
+            elif name == 'kerberos':
+                spk["kerberos"] = value
     except (NameError, NoSectionError, NoOptionError) as err:
         lgr.warning('Spark Server config missing; assuming standalone local spark')
         lgr.warning('Spark config error: %s', err)
@@ -249,3 +260,20 @@ def getbdapplst(lgr=''):
     except (NameError, NoSectionError, NoOptionError):
         lgr.warning('Applications to monitor missing; assuming hdfs only')
     return applst
+
+def getsecsettings(lgr=''):
+    """ Function for security config"""
+    if not lgr:
+        lgr = getlgr()
+    try:
+        _CFG.read(_CONFIGFL)
+        sec = {'tlsverify':'y', 'kerberos':'n'}
+        for name, value in _CFG.items('SECURITY'):
+            if name == 'tlsverify' and value == 'n':
+                sec["tlsverify"] = value
+            elif name == 'kerberos' and value == 'y':
+                sec["kerberos"] = value
+    except (NameError, NoSectionError, NoOptionError) as err:
+        lgr.warning('Security Server config missing; assuming verify TLS certificate, no Kerberos')
+        lgr.warning('Security config error: %s', err)
+    return sec
